@@ -2,7 +2,25 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 3001;
 
-app.get("/", (req, res) => res.type('html').send(html));
+app.use(express.json());
+
+// Middleware to parse URL-encoded bodies
+app.use(express.urlencoded({ extended: true }));
+
+// Handle POST requests to /submit
+app.post('/callback', (req, res) => {
+    // Capture POST request data
+    const data = req.body;
+
+    // Log the captured data
+    console.log('Received POST data:', data);
+
+    // Send a response
+    res.send('Data received successfully!');
+});
+
+app.get("/callback", (req, res) => res.type('html').send(html));
+
 
 const server = app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
